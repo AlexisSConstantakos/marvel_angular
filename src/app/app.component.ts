@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { MarvelService } from './marvel.service';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,26 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app';
+  title = 'Marvel';
+
+character;
+
+constructor(private marvelService: MarvelService){}
+
+getDataFromService(searchTerm: string = ''){
+  this.marvelService.getCharacters(searchTerm)
+  .subscribe(
+    character => {
+      this.character = character.data.results;
+      console.log(this.character)
+      console.log(this.character.length)
+    }
+  )
+}
+
+
+ngOnInit(){
+  this.getDataFromService()
+}
+
 }
